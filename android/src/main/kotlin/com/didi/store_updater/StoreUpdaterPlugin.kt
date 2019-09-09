@@ -9,7 +9,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
-class StoreUpdaterPlugin(registrar: Registrar) : MethodCallHandler {
+class StoreUpdaterPlugin(var registrar: Registrar) : MethodCallHandler {
   companion object {
     @JvmStatic
     fun registerWith(registrar: Registrar) {
@@ -29,7 +29,7 @@ class StoreUpdaterPlugin(registrar: Registrar) : MethodCallHandler {
   }
 
   fun onCheckUpdate() {
-    val appUpdateManager = AppUpdateManagerFactory.create(this.registrar.context())
+    val appUpdateManager = AppUpdateManagerFactory.create(registrar.context())
     val appUpdateInfoTask = appUpdateManager.appUpdateInfo
     appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
       if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
